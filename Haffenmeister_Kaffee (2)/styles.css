@@ -879,13 +879,27 @@ label {
 .lightbox-nav.next { right: 24px; }
 
 /* Reservation + Contact */
-.form-slide { background: var(--bg); }
+.form-slide { background: var(--bg); padding-bottom: calc(var(--pad-slide) + 80px); }
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--gap-xl);
   height: 100%;
   align-items: center;
+}
+
+/* Dropdown options — works in both themes */
+select option {
+  background: var(--bg);
+  color: var(--fg);
+}
+[data-theme="dark"] select option {
+  background: #1a1a1a;
+  color: #f5f1e8;
+}
+[data-theme="light"] select option {
+  background: #f5f1e8;
+  color: #0a0a0a;
 }
 .form-card {
   display: flex;
