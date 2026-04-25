@@ -127,7 +127,7 @@ function SlideReserve({ onSubmit, active }) {
           </div>
           <div className="info-block">
             <span className="eyebrow">Telefon</span>
-            <a href="tel:+493452498352​4" style={{ fontFamily: "var(--font-display)", fontSize: 30 }}>0345 24983524</a>
+            <a href="tel:+4934524983524" style={{ fontFamily: "var(--font-display)", fontSize: 30 }}>0345 24983524</a>
           </div>
           <div className="info-block">
             <span className="eyebrow">E-Mail</span>
@@ -175,7 +175,7 @@ function SlideContact({ active }) {
           <div className="anim" style={{ "--d": "0.5s", marginTop: 32, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 24 }}>
             <div className="info-block">
               <span className="eyebrow"><Icon.Phone /> Anker per Ruf</span>
-              <a href="tel:+493452498352​4">0345 24983524</a>
+              <a href="tel:+4934524983524">0345 24983524</a>
             </div>
             <div className="info-block">
               <span className="eyebrow"><Icon.Instagram /> Social</span>
