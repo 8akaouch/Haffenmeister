@@ -483,6 +483,7 @@ body {
   color: #0a0a0a !important;
   border-color: #f5f1e8 !important;
 }
+input, textarea, select {
   font: inherit;
   color: var(--fg);
   background: transparent;
