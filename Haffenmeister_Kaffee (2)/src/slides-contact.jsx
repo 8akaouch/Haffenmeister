@@ -185,7 +185,12 @@ function SlideContact({ active }) {
         </div>
 
         <div className="map anim" style={{ "--d": "0.4s" }}>
-          <MapSVG />
+          <iframe
+            title="Hafenmeister & Docks Standort"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=11.960%2C51.476%2C11.978%2C51.484&layer=mapnik&marker=51.4800%2C11.9706"
+            style={{ width: "100%", height: "100%", border: "none", filter: "grayscale(0.3) contrast(1.1)" }}
+            loading="lazy"
+          />
         </div>
       </div>
     </section>
