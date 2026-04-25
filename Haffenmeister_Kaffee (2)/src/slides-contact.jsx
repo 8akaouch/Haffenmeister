@@ -1,21 +1,47 @@
 /* global React, Icon, Waves, HOURS */
 const { useState: useStateC } = React;
 
+const FORMSUBMIT_EMAIL = "jakop272@gmail.com";
+
 // ============================================================
 // Slide 7 — Reservation / Event request (tabbed)
 // ============================================================
 function SlideReserve({ onSubmit, active }) {
   const [tab, setTab] = useStateC("tisch");
+  const [sending, setSending] = useStateC(false);
   const [form, setForm] = useStateC({
     name: "", email: "", phone: "", date: "", time: "19:00",
     guests: "2", message: "", eventType: "Hochzeit",
   });
 
   const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
-  const submit = (e) => {
+
+  const submit = async (e) => {
     e.preventDefault();
-    onSubmit(tab === "tisch" ? "Reservierung gesendet · Ahoi!" : "Event-Anfrage gesendet · wir melden uns!");
-    setForm({ name: "", email: "", phone: "", date: "", time: "19:00", guests: "2", message: "", eventType: "Hochzeit" });
+    setSending(true);
+    const subject = tab === "tisch"
+      ? `Tischreservierung – ${form.name} – ${form.date} ${form.time}`
+      : `Event-Anfrage – ${form.eventType} – ${form.name}`;
+    const body = tab === "tisch"
+      ? `Name: ${form.name}\nE-Mail: ${form.email}\nTelefon: ${form.phone}\nDatum: ${form.date}\nUhrzeit: ${form.time}\nPersonen: ${form.guests}\nNachricht: ${form.message}`
+      : `Name: ${form.name}\nE-Mail: ${form.email}\nTelefon: ${form.phone}\nEvent: ${form.eventType}\nDatum: ${form.date}\nGäste: ${form.guests}\nBeschreibung: ${form.message}`;
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_EMAIL}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ _subject: subject, _template: "table", ...Object.fromEntries(body.split("\n").map(l => l.split(": "))) }),
+      });
+      const data = await res.json();
+      if (data.success === "true" || data.success === true) {
+        onSubmit(tab === "tisch" ? "Reservierung gesendet · Ahoi!" : "Event-Anfrage gesendet · wir melden uns!");
+        setForm({ name: "", email: "", phone: "", date: "", time: "19:00", guests: "2", message: "", eventType: "Hochzeit" });
+      } else {
+        onSubmit("Fehler beim Senden — bitte per E-Mail anfragen.");
+      }
+    } catch {
+      onSubmit("Fehler beim Senden — bitte per E-Mail anfragen.");
+    }
+    setSending(false);
   };
 
   return (
@@ -108,8 +134,8 @@ function SlideReserve({ onSubmit, active }) {
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 8 }}>
-              <button className="btn" type="submit">
-                {tab === "tisch" ? "Reservieren" : "Anfrage senden"} <Icon.Arrow />
+              <button className="btn" type="submit" disabled={sending}>
+                {sending ? "Wird gesendet…" : (tab === "tisch" ? "Reservieren" : "Anfrage senden")} <Icon.Arrow />
               </button>
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--fg-dim)" }}>
                 Unverbindlich · Antwort binnen 24h
