@@ -1,7 +1,7 @@
 /* global React, Icon, Waves, HOURS */
 const { useState: useStateC } = React;
 
-const FORMSUBMIT_EMAIL = "jakop272@gmail.com";
+const WEB3FORMS_KEY = "ef81f523-a279-45f7-b63e-1fdbe35aadb9";
 
 // ============================================================
 // Slide 7 — Reservation / Event request (tabbed)
@@ -32,13 +32,13 @@ function SlideReserve({ onSubmit, active }) {
           "Art des Events": form.eventType, "Datum (ca.)": form.date || "–",
           "Anzahl Gäste": form.guests, Beschreibung: form.message || "–" };
     try {
-      const res = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_EMAIL}`, {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ access_key: WEB3FORMS_KEY, ...payload }),
       });
       const data = await res.json();
-      if (data.success === "true" || data.success === true) {
+      if (data.success) {
         onSubmit(tab === "tisch" ? "Reservierung gesendet · Ahoi!" : "Event-Anfrage gesendet · wir melden uns!");
         setForm({ name: "", email: "", phone: "", date: "", time: "19:00", guests: "2", message: "", eventType: "Hochzeit" });
       } else {
