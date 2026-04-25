@@ -581,7 +581,7 @@ label {
   z-index: 2;
   padding: var(--pad-slide);
   padding-top: calc(var(--pad-slide) + 40px);
-  padding-bottom: calc(var(--pad-slide) + 56px);
+  padding-bottom: calc(var(--pad-slide) + 32px);
   display: grid;
   grid-template-rows: 1fr auto;
   height: 100%;
