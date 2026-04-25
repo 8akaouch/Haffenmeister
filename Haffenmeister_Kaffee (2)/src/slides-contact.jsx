@@ -20,26 +20,32 @@ function SlideReserve({ onSubmit, active }) {
     e.preventDefault();
     setSending(true);
     const subject = tab === "tisch"
-      ? `Tischreservierung – ${form.name} – ${form.date} ${form.time}`
+      ? `Tischreservierung – ${form.name} – ${form.date} ${form.time} Uhr`
       : `Event-Anfrage – ${form.eventType} – ${form.name}`;
-    const body = tab === "tisch"
-      ? `Name: ${form.name}\nE-Mail: ${form.email}\nTelefon: ${form.phone}\nDatum: ${form.date}\nUhrzeit: ${form.time}\nPersonen: ${form.guests}\nNachricht: ${form.message}`
-      : `Name: ${form.name}\nE-Mail: ${form.email}\nTelefon: ${form.phone}\nEvent: ${form.eventType}\nDatum: ${form.date}\nGäste: ${form.guests}\nBeschreibung: ${form.message}`;
+    const payload = tab === "tisch"
+      ? { _subject: subject, _template: "table", _captcha: "false",
+          Name: form.name, "E-Mail": form.email, Telefon: form.phone || "–",
+          Datum: form.date, Uhrzeit: form.time, Personen: form.guests,
+          Nachricht: form.message || "–" }
+      : { _subject: subject, _template: "table", _captcha: "false",
+          Name: form.name, "E-Mail": form.email, Telefon: form.phone || "–",
+          "Art des Events": form.eventType, "Datum (ca.)": form.date || "–",
+          "Anzahl Gäste": form.guests, Beschreibung: form.message || "–" };
     try {
       const res = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_EMAIL}`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({ _subject: subject, _template: "table", ...Object.fromEntries(body.split("\n").map(l => l.split(": "))) }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (data.success === "true" || data.success === true) {
         onSubmit(tab === "tisch" ? "Reservierung gesendet · Ahoi!" : "Event-Anfrage gesendet · wir melden uns!");
         setForm({ name: "", email: "", phone: "", date: "", time: "19:00", guests: "2", message: "", eventType: "Hochzeit" });
       } else {
-        onSubmit("Fehler beim Senden — bitte per E-Mail anfragen.");
+        onSubmit("Fehler – bitte direkt per E-Mail anfragen.");
       }
     } catch {
-      onSubmit("Fehler beim Senden — bitte per E-Mail anfragen.");
+      onSubmit("Fehler – bitte direkt per E-Mail anfragen.");
     }
     setSending(false);
   };
