@@ -23,11 +23,11 @@ function SlideReserve({ onSubmit, active }) {
       ? `Tischreservierung – ${form.name} – ${form.date} ${form.time} Uhr`
       : `Event-Anfrage – ${form.eventType} – ${form.name}`;
     const payload = tab === "tisch"
-      ? { _subject: subject, _template: "table", _captcha: "false",
+      ? { subject, from_name: "Hafenmeister & Docks Website",
           Name: form.name, "E-Mail": form.email, Telefon: form.phone || "–",
           Datum: form.date, Uhrzeit: form.time, Personen: form.guests,
           Nachricht: form.message || "–" }
-      : { _subject: subject, _template: "table", _captcha: "false",
+      : { subject, from_name: "Hafenmeister & Docks Website",
           Name: form.name, "E-Mail": form.email, Telefon: form.phone || "–",
           "Art des Events": form.eventType, "Datum (ca.)": form.date || "–",
           "Anzahl Gäste": form.guests, Beschreibung: form.message || "–" };
