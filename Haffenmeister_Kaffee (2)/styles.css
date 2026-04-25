@@ -1034,8 +1034,8 @@ label {
   .hero-meta { grid-template-columns: 1fr; gap: 10px; }
   .hero-meta-cell .v { font-size: 18px; }
   .hero-content { padding-bottom: calc(var(--pad-slide) + 90px); }
-  .footer-meta { font-size: 8px; gap: 10px; letter-spacing: 0.15em; }
-  .footer-meta .coord:nth-child(3), .footer-meta span:nth-child(2) { display: none; }
+  .footer-meta { display: none; }
+  .slide-num { display: none; }
   .scroll-hint { display: none; }
   .field-row { grid-template-columns: 1fr; }
   .intro-img { height: 36vh; }
