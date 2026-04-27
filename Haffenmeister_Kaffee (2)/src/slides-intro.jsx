@@ -8,17 +8,25 @@ function SlideHero({ onNav, active }) {
     <section className={`slide hero ${active ? "active" : ""}`} data-screen-label="01 Hero">
       <div className="hero-bg" />
       <div className="hero-veil" />
+
+      {/* Decorative large year in background */}
+      <div className="hero-seit" aria-hidden="true">2018</div>
+
       <div className="hero-content">
         <div className="hero-top">
-          <span className="kicker anim" style={{ "--d": "0.1s" }}>Ahoi — Willkommen an Bord</span>
-          <h1 className="display anim" style={{ "--d": "0.25s", marginTop: 18, maxWidth: "14ch" }}>
+          <span className="kicker anim" style={{ "--d": "0.08s" }}>Ahoi — Willkommen an Bord</span>
+
+          {/* Animated accent line before headline */}
+          <span className="hero-line" aria-hidden="true" />
+
+          <h1 className="display anim" style={{ "--d": "0.22s", marginTop: 0, maxWidth: "14ch" }}>
             Café, Bar &amp; <em>gute Zeit</em><br />an der Saale.
           </h1>
-          <p className="lede anim" style={{ "--d": "0.45s", marginTop: 28 }}>
+          <p className="lede anim" style={{ "--d": "0.42s", marginTop: 26 }}>
             Zwischen Saline und Strom. Tagsüber Frühstück und Kaffee, abends Cocktails und kleine Feste —
             seit 2018 zu Hause in Halle.
           </p>
-          <div className="anim" style={{ "--d": "0.6s", marginTop: 40, display: "flex", gap: 16, flexWrap: "wrap" }}>
+          <div className="anim" style={{ "--d": "0.58s", marginTop: 40, display: "flex", gap: 16, flexWrap: "wrap" }}>
             <button className="btn" onClick={() => onNav(6)}>
               Tisch reservieren <Icon.Arrow />
             </button>
@@ -28,7 +36,7 @@ function SlideHero({ onNav, active }) {
           </div>
         </div>
 
-        <div className="hero-bot anim-fade" style={{ "--d": "0.8s" }}>
+        <div className="hero-bot anim-fade" style={{ "--d": "0.75s" }}>
           <div className="hero-meta">
             <div className="hero-meta-cell">
               <div className="eyebrow">Heute geöffnet</div>

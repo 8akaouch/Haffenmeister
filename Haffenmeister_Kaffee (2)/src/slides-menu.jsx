@@ -31,13 +31,14 @@ function SlideMenu({ active }) {
         </div>
       </div>
 
-      <div className="menu-grid anim" style={{ "--d": "0.4s" }}>
+      <div className="menu-grid">
         {items.map((it, i) => (
           <div className="menu-item" key={`${tab}-${i}`}>
             <div>
               <h4>
+                <span className="menu-item-idx">{String(i + 1).padStart(2, "0")}</span>
                 {it.name}
-                {it.tag && <span className="tag">— {it.tag}</span>}
+                {it.tag && <span className="tag">{it.tag}</span>}
               </h4>
               <p>{it.desc}</p>
             </div>
