@@ -99,7 +99,7 @@ function App() {
       </div>
 
       <Dots count={SLIDES.length} current={cur} onNav={go} />
-      {cur > 0 && <FooterMeta current={cur} total={SLIDES.length} />}
+      {cur > 0 && SLIDES[cur].id !== "reserve" && <FooterMeta current={cur} total={SLIDES.length} />}
 
       {cur === 0 && (
         <div className="scroll-hint">
