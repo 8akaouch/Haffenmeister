@@ -1253,32 +1253,243 @@ select option {
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* Mobile */
+/* ============================================================
+   MOBILE BOTTOM NAV — always defined, hidden on desktop
+   ============================================================ */
+.mob-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: color-mix(in srgb, var(--bg-elev) 96%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.mob-nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 4px 9px;
+  min-height: 58px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--fg-dim);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.22s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+.mob-nav-btn.active { color: var(--accent); }
+.mob-nav-btn.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 0 0 2px 2px;
+}
+
+/* Internal-scroll helper — used to detect scrollable regions in touch handler */
+.mob-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* ============================================================
+   TABLET (≤ 880px)
+   ============================================================ */
 @media (max-width: 880px) {
-  :root { --pad-slide: 24px; }
-  .slide { padding-bottom: calc(var(--pad-slide) + 80px); }
+  :root { --pad-slide: 22px; }
   .top-nav { display: none; }
-  .dots { right: 10px; }
-  .grid-2, .grid-3, .intro-grid, .drinks-feature, .form-grid, .contact-grid { grid-template-columns: 1fr; gap: var(--gap-md); }
-  .menu-grid { grid-template-columns: 1fr; }
-  .events-grid { grid-template-columns: 1fr; }
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(6, 1fr); gap: 4px; }
-  .g-1,.g-2,.g-3,.g-4,.g-5,.g-6 { grid-column: span 1; grid-row: span 1; }
-  .display { font-size: 44px; }
-  .headline { font-size: 34px; }
-  .hero-meta { grid-template-columns: 1fr; gap: 10px; }
-  .hero-meta-cell .v { font-size: 18px; }
-  .hero-content { padding-bottom: calc(var(--pad-slide) + 90px); }
   .footer-meta { display: none; }
   .slide-num { display: none; }
   .scroll-hint { display: none; }
-  .field-row { grid-template-columns: 1fr; }
+  .dots { right: 8px; }
+  .grid-2, .grid-3, .intro-grid, .drinks-feature, .form-grid, .contact-grid { grid-template-columns: 1fr; gap: var(--gap-md); }
+  .display { font-size: 44px; }
+  .headline { font-size: 34px; }
+  .hero-meta { grid-template-columns: repeat(3, auto); gap: var(--gap-md); }
+  .hero-content { padding-bottom: calc(var(--pad-slide) + 80px); }
   .intro-img { height: 36vh; }
   .map { height: 36vh; }
-  .contact-slide .info-block { padding: 12px 0; }
-  .contact-slide .grid-2 { gap: 12px !important; }
+  .field-row { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(6, 1fr); gap: 4px; }
+  .g-1,.g-2,.g-3,.g-4,.g-5,.g-6 { grid-column: span 1; grid-row: span 1; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .events-grid { grid-template-columns: 1fr; }
 }
 
+/* ============================================================
+   PHONE (≤ 600px) — full mobile overhaul
+   ============================================================ */
+@media (max-width: 600px) {
+  :root { --pad-slide: 18px; }
+
+  /* Show bottom nav */
+  .mob-nav { display: flex; }
+
+  /* Topbar — slim */
+  .topbar {
+    height: 52px;
+    padding: 0 var(--pad-slide);
+  }
+  .brand-text small { display: none; }
+  .brand-text { font-size: 13px; letter-spacing: 0.05em; }
+  .theme-toggle { padding: 8px; width: 36px; height: 36px; }
+
+  /* Ticker — thinner */
+  .ticker { padding: 6px 0; }
+  .ticker-item { font-size: 9px; padding: 0 14px; gap: 7px; }
+  .ticker-dot { width: 2px; height: 2px; }
+
+  /* Rotating badge — smaller, doesn't crowd content */
+  .rot-badge { width: 96px !important; height: 96px !important; top: 10px !important; right: 10px !important; }
+  .rot-badge-svg { width: 96px !important; height: 96px !important; }
+  .rot-badge-text { font-size: 8px; }
+  .rot-badge-inner svg { width: 20px !important; height: 20px !important; }
+
+  /* All slides — account for topbar (52px) + bottom nav (58px + safe area) */
+  .slide {
+    padding-top: 52px;
+    padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* ── Hero ── */
+  .hero-content {
+    padding: var(--pad-slide);
+    padding-top: calc(var(--pad-slide) + 42px); /* below ticker */
+    padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px) + 16px);
+    grid-template-rows: 1fr auto;
+  }
+  .display { font-size: 32px; line-height: 1.08; }
+  .lede { font-size: 14px; line-height: 1.55; margin-top: 16px !important; }
+  .hero-line { margin-bottom: 20px; }
+  .hero-top .btn { padding: 12px 20px; font-size: 12px; }
+  .hero-meta {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .hero-meta-cell:last-child { display: none; } /* hide phone number — in nav */
+  .hero-meta-cell .v { font-size: 15px; margin-top: 3px; }
+  .hero-bot { flex-direction: column; gap: 8px; }
+  .hero-bot .waves { display: none; }
+  .hero-seit {
+    font-size: clamp(60px, 22vw, 120px);
+    right: -10px;
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* ── Intro / About ── */
+  .intro-grid { grid-template-columns: 1fr; gap: 20px; }
+  .intro-img { height: 30vh; order: -1; margin: 0 calc(-1 * var(--pad-slide)); border-radius: 0; }
+  .headline { font-size: 28px; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr) !important; gap: 14px !important; }
+
+  /* ── Menu slide ── */
+  .menu-slide {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+  }
+  .menu-head { flex-shrink: 0; padding-bottom: 0; }
+  .menu-head .headline { font-size: 24px; margin-top: 8px !important; }
+  .menu-filters { flex-wrap: nowrap; overflow-x: auto; gap: 6px; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
+  .menu-filters::-webkit-scrollbar { display: none; }
+  .pill { flex-shrink: 0; padding: 7px 14px; font-size: 10px; }
+  .menu-grid {
+    flex: 1;
+    overflow-y: auto;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 8px;
+    padding-bottom: 8px;
+  }
+  .menu-grid::-webkit-scrollbar { display: none; }
+  .menu-item { padding: 11px 0; }
+  .menu-item h4 { font-size: 14px; gap: 6px; }
+  .menu-item p { font-size: 12px; margin-top: 3px; }
+  .price { font-size: 14px; }
+
+  /* ── Drinks slide ── */
+  .drinks-feature { grid-template-columns: 1fr; gap: 0; }
+  .drinks-img { height: 26vh; order: -1; margin: 0 calc(-1 * var(--pad-slide)); }
+  .drinks-list {
+    overflow-y: auto;
+    padding-top: 14px;
+    padding-bottom: 8px;
+    flex: 1;
+  }
+  .drinks-list::-webkit-scrollbar { display: none; }
+  .drinks-list .headline { font-size: 22px; }
+  .drinks-row { padding: 10px 0; }
+  .drinks-slide { display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── Events ── */
+  .events-grid { grid-template-columns: 1fr; gap: 14px; }
+  .event-card { padding: 18px; }
+
+  /* ── Gallery ── */
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 3px; }
+  .g-1,.g-2,.g-3,.g-4,.g-5,.g-6 { grid-column: span 1 !important; grid-row: span 1 !important; height: 28vw; }
+
+  /* ── Reserve / Form ── */
+  .form-grid { grid-template-columns: 1fr; overflow: hidden; }
+  .form-card {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 16px;
+  }
+  .form-card::-webkit-scrollbar { display: none; }
+  .form-card .headline { font-size: 24px; }
+  .form-tabs { gap: 0; }
+  .form-tab { font-size: 11px; padding: 10px 12px; }
+  .field-row { grid-template-columns: 1fr; gap: 10px; }
+  input, select, textarea {
+    font-size: 16px !important; /* prevent iOS zoom */
+    padding: 12px;
+    border-radius: 0;
+  }
+  .form-right { display: none; }
+  .form-slide { display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── Contact / Map ── */
+  .contact-grid { grid-template-columns: 1fr; gap: 16px; overflow: hidden; }
+  .contact-slide { overflow: hidden; display: flex; flex-direction: column; }
+  .contact-slide > * { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .map { height: 38vh; order: -1; margin: 0 calc(-1 * var(--pad-slide)); }
+  .hours-list { gap: 4px; }
+  .hours-row { padding: 7px 0; font-size: 12px; }
+  .info-block { padding: 10px 0; }
+  .info-block a { font-size: 18px !important; }
+  .contact-slide .grid-2 { grid-template-columns: 1fr 1fr; gap: 10px !important; }
+
+  /* ── Dots — smaller, less intrusive ── */
+  .dots { right: 6px; gap: 5px; }
+  .dot { width: 5px; height: 5px; }
+  .dot-label { display: none; }
+
+  /* ── Toast — above bottom nav ── */
+  .toast { bottom: calc(70px + env(safe-area-inset-bottom, 0px)); font-size: 10px; padding: 11px 18px; }
+}
+
+/* ============================================================
+   TABLET MEDIUM (881–1100px)
+   ============================================================ */
 @media (max-width: 1100px) and (min-width: 881px) {
   .footer-meta .coord:nth-child(3) { display: none; }
 }

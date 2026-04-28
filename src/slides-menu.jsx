@@ -31,7 +31,7 @@ function SlideMenu({ active }) {
         </div>
       </div>
 
-      <div className="menu-grid">
+      <div className="menu-grid mob-scroll">
         {items.map((it, i) => (
           <div className="menu-item" key={`${tab}-${i}`}>
             <div>
@@ -106,7 +106,7 @@ function SlideDrinks({ active }) {
             ))}
           </div>
 
-          <div className="anim" style={{ "--d": "0.45s" }}>
+          <div className="anim mob-scroll" style={{ "--d": "0.45s" }}>
             {items.map((it, i) => (
               <div className="drinks-row" key={`${tab}-${i}`}>
                 <div>

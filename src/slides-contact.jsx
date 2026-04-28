@@ -53,7 +53,7 @@ function SlideReserve({ onSubmit, active }) {
   return (
     <section className={`slide form-slide ${active ? "active" : ""}`} data-screen-label="07 Reservieren">
       <div className="form-grid">
-        <div className="form-card anim" style={{ "--d": "0.1s" }}>
+        <div className="form-card anim mob-scroll" style={{ "--d": "0.1s" }}>
           <div>
             <span className="kicker">Anker werfen · Kap. 06</span>
             <h2 className="headline" style={{ marginTop: 14 }}>
