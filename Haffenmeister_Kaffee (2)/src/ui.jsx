@@ -1,4 +1,12 @@
 /* global React, Icon, Waves, SLIDES */
+
+const MOB_NAV_ITEMS = [
+  { idx: 0, label: "Start",    icon: "Home"     },
+  { idx: 2, label: "Küche",   icon: "Utensils" },
+  { idx: 3, label: "Bar",      icon: "Glass"    },
+  { idx: 6, label: "Buchen",   icon: "Calendar" },
+  { idx: 7, label: "Info",     icon: "Pin"      },
+];
 const { useState, useEffect, useRef } = React;
 
 // ============================================================
@@ -103,8 +111,35 @@ function Lightbox({ items, index, onClose, onPrev, onNext }) {
   );
 }
 
+// ============================================================
+// Mobile bottom tab bar
+// ============================================================
+function MobileNav({ current, onNav }) {
+  return (
+    <nav className="mob-nav" aria-label="Navigation">
+      {MOB_NAV_ITEMS.map((t) => {
+        const IconComp = Icon[t.icon];
+        const isActive = current === t.idx;
+        return (
+          <button
+            key={t.idx}
+            className={`mob-nav-btn${isActive ? " active" : ""}`}
+            onClick={() => onNav(t.idx)}
+            aria-current={isActive}
+            aria-label={t.label}
+          >
+            <IconComp size={20} />
+            <span>{t.label}</span>
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
 window.Topbar = Topbar;
 window.Dots = Dots;
 window.FooterMeta = FooterMeta;
 window.Toast = Toast;
 window.Lightbox = Lightbox;
+window.MobileNav = MobileNav;

@@ -1,4 +1,4 @@
-/* global React, ReactDOM, SLIDES, Topbar, Dots, FooterMeta, Toast, SlideHero, SlideIntro, SlideMenu, SlideDrinks, SlideEvents, SlideGallery, SlideReserve, SlideContact, Icon, Waves */
+/* global React, ReactDOM, SLIDES, Topbar, Dots, FooterMeta, Toast, MobileNav, SlideHero, SlideIntro, SlideMenu, SlideDrinks, SlideEvents, SlideGallery, SlideReserve, SlideContact, Icon, Waves */
 const { useState, useEffect, useRef, useCallback } = React;
 
 function App() {
@@ -56,18 +56,37 @@ function App() {
     return () => window.removeEventListener("wheel", onWheel);
   }, [cur, go]);
 
-  // Touch navigation
+  // Touch navigation — skips slide-change if touch starts inside a scrollable element that has room to scroll
   useEffect(() => {
     let startY = null;
-    const onStart = (e) => { startY = e.touches[0].clientY; };
+    let startX = null;
+    let inScrollable = false;
+
+    const onStart = (e) => {
+      startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
+      const el = e.target.closest(".mob-scroll");
+      if (el) {
+        const canUp = el.scrollTop > 2;
+        const canDown = el.scrollTop < el.scrollHeight - el.clientHeight - 2;
+        inScrollable = canUp || canDown;
+      } else {
+        inScrollable = false;
+      }
+    };
+
     const onEnd = (e) => {
       if (startY == null) return;
       const dy = startY - e.changedTouches[0].clientY;
-      if (Math.abs(dy) > 60) {
+      const dx = startX - e.changedTouches[0].clientX;
+      startY = null;
+      if (Math.abs(dx) > Math.abs(dy)) return; // horizontal swipe — ignore
+      if (inScrollable) return;                 // internal scroll — ignore
+      if (Math.abs(dy) > 55) {
         if (dy > 0) go(cur + 1); else go(cur - 1);
       }
-      startY = null;
     };
+
     window.addEventListener("touchstart", onStart, { passive: true });
     window.addEventListener("touchend", onEnd);
     return () => {
@@ -100,6 +119,7 @@ function App() {
 
       <Dots count={SLIDES.length} current={cur} onNav={go} />
       {cur > 0 && SLIDES[cur].id !== "reserve" && <FooterMeta current={cur} total={SLIDES.length} />}
+      <MobileNav current={cur} onNav={go} />
 
       {cur === 0 && (
         <div className="scroll-hint">
