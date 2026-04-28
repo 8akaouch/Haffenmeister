@@ -1,4 +1,9 @@
-/* global React, Icon, Waves */
+/* global React, Icon, Waves, RotatingBadge, Ticker, SplitText */
+
+const TICKER_ITEMS = [
+  "Café & Bar", "Seit 2018", "Halle (Saale)", "Pfälzer Str. 4",
+  "Frühstück", "Cocktails", "Gin & Wein", "Events & Feiern",
+];
 
 // ============================================================
 // Slide 1 — Hero
@@ -8,6 +13,12 @@ function SlideHero({ onNav, active }) {
     <section className={`slide hero ${active ? "active" : ""}`} data-screen-label="01 Hero">
       <div className="hero-bg" />
       <div className="hero-veil" />
+
+      {/* Top marquee ticker */}
+      <Ticker items={TICKER_ITEMS} />
+
+      {/* Rotating corner badge */}
+      <RotatingBadge size={150} />
 
       {/* Decorative large year in background */}
       <div className="hero-seit" aria-hidden="true">2018</div>
@@ -19,8 +30,8 @@ function SlideHero({ onNav, active }) {
           {/* Animated accent line before headline */}
           <span className="hero-line" aria-hidden="true" />
 
-          <h1 className="display anim" style={{ "--d": "0.22s", marginTop: 0, maxWidth: "14ch" }}>
-            Café, Bar &amp; <em>gute Zeit</em><br />an der Saale.
+          <h1 className="display" style={{ marginTop: 0, maxWidth: "14ch" }}>
+            <SplitText text="Café, Bar & gute Zeit an der Saale." />
           </h1>
           <p className="lede anim" style={{ "--d": "0.42s", marginTop: 26 }}>
             Zwischen Saline und Strom. Tagsüber Frühstück und Kaffee, abends Cocktails und kleine Feste —

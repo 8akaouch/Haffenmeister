@@ -63,5 +63,63 @@ const Waves = ({ width = 220, height = 14, className = "waves" }) => (
   </svg>
 );
 
+// Rotating circular badge with curved text — for hero corner
+const RotatingBadge = ({ size = 180, text = "HAFENMEISTER & DOCKS · CAFÉ · BAR · SEIT 2018 · " }) => (
+  <div className="rot-badge" style={{ width: size, height: size }}>
+    <svg viewBox="0 0 200 200" width={size} height={size} className="rot-badge-svg">
+      <defs>
+        <path id="rot-badge-circle" d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" />
+      </defs>
+      <text className="rot-badge-text">
+        <textPath href="#rot-badge-circle" startOffset="0">{text + text}</textPath>
+      </text>
+    </svg>
+    <div className="rot-badge-inner" aria-hidden="true">
+      <Icon.Anchor size={28} />
+    </div>
+  </div>
+);
+
+// Horizontal marquee ticker — for top of hero
+const Ticker = ({ items }) => (
+  <div className="ticker" aria-hidden="true">
+    <div className="ticker-track">
+      {[0, 1].map((dup) => (
+        <div className="ticker-group" key={dup}>
+          {items.map((it, i) => (
+            <span key={`${dup}-${i}`} className="ticker-item">
+              <span className="ticker-dot" /> {it}
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+// Letter-by-letter wrapper for headline reveal
+const SplitText = ({ text, className = "", style = {} }) => {
+  const words = text.split(" ");
+  let charIdx = 0;
+  return (
+    <span className={`split ${className}`} style={style}>
+      {words.map((word, wi) => (
+        <span className="split-word" key={wi}>
+          {Array.from(word).map((ch, ci) => {
+            const i = charIdx++;
+            return (
+              <span className="split-char" key={ci} style={{ "--ci": i }}>{ch}</span>
+            );
+          })}
+          {wi < words.length - 1 && <span className="split-space"> </span>}
+        </span>
+      ))}
+    </span>
+  );
+};
+
 window.Icon = Icon;
 window.Waves = Waves;
+window.RotatingBadge = RotatingBadge;
+window.Ticker = Ticker;
+window.SplitText = SplitText;

@@ -654,7 +654,7 @@ label {
   position: relative;
   z-index: 2;
   padding: var(--pad-slide);
-  padding-top: calc(var(--pad-slide) + 40px);
+  padding-top: calc(var(--pad-slide) + 76px);
   padding-bottom: calc(var(--pad-slide) + 32px);
   display: grid;
   grid-template-rows: 1fr auto;
@@ -680,6 +680,98 @@ label {
   font-family: var(--font-display);
   font-size: 22px;
   margin-top: 6px;
+}
+
+/* RotatingBadge */
+.rot-badge {
+  position: absolute;
+  top: clamp(16px, 4vh, 48px);
+  right: clamp(16px, 4vw, 64px);
+  z-index: 3;
+  pointer-events: none;
+}
+.rot-badge-svg {
+  animation: badgeSpin 22s linear infinite;
+  display: block;
+}
+@keyframes badgeSpin {
+  to { transform: rotate(360deg); }
+}
+.rot-badge-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  fill: rgba(245,241,232,0.55);
+  text-transform: uppercase;
+}
+.rot-badge-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(245,241,232,0.7);
+}
+
+/* Ticker */
+.ticker {
+  overflow: hidden;
+  border-top: 1px solid rgba(245,241,232,0.12);
+  border-bottom: 1px solid rgba(245,241,232,0.12);
+  padding: 9px 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: tickerScroll 28s linear infinite;
+}
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-group {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.ticker-item {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245,241,232,0.45);
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ticker-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* SplitText letter-reveal */
+.split-word { display: inline-block; overflow: hidden; }
+.split-space { display: inline-block; width: 0.28em; }
+.split-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(60%) rotate(4deg);
+}
+.slide.active .split-char {
+  animation: charIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.28s + var(--ci, 0) * 0.032s);
+}
+@keyframes charIn {
+  to { opacity: 1; transform: translateY(0) rotate(0deg); }
 }
 
 /* Intro */
